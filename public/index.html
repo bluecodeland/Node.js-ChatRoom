@@ -8,5 +8,15 @@
 </head>
 <body>
     <h3>نرم افزار چت فعال است</h3>
+<script src="/socket.io/socket.io.js"></script>
+<script> 
+var socket = io()
+socket.on('connect',()=>{
+    console.log('New User Connect !')
+})
+socket.on('disconnect',()=>{
+    console.log('Disconnect from Server !')
+})
+</script>
 </body>
 </html>
