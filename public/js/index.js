@@ -1,21 +1,17 @@
 var socket = io()
 socket.on('connect',()=>{
     console.log('New User Connect !')
-//For Create Message For Server
-    // socket.emit('createMessage',{
-    //     from:"Mohammad",
-    //     text:"Hello Socket"
-    // })
+
 })
 socket.on('disconnect',()=>{
     console.log('Disconnect from Server !')
 })
-//For Create Message to Server
+//For Create New Text Message
 socket.on('newMessage',(message)=>{
     console.log('newMessage',message)
-
+    var formatedTime = moment(message.createdAt).format('hh:mm a')
     var li = jQuery('<li></li>')
-    li.text(`${message.from} : ${message.text}`)
+    li.text(`${message.from} ${formatedTime} : ${message.text}`)
     jQuery('#messages').append(li)
 })
 
@@ -47,12 +43,13 @@ locationButton.on('click',function(){
         alert('Unable to fetch Location !')
     })
 })
-
+//For Create New Location Message
 socket.on('newLocationMessage',function(message){
+    var formatedTime = moment(message.createdAt).format('hh:mm a')
     var li =jQuery('<li></li>')
     var a = jQuery('<a target="_blank">My Current Position </a>')
 
-    li.text(`${message.from}: `)
+    li.text(`${message.from} ${formatedTime} : `)
     a.attr('href',message.url)
     li.append(a)
     jQuery('#messages').append(li)
