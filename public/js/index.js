@@ -8,11 +8,15 @@ socket.on('disconnect',()=>{
 })
 //For Create New Text Message
 socket.on('newMessage',(message)=>{
-    console.log('newMessage',message)
     var formatedTime = moment(message.createdAt).format('hh:mm a')
-    var li = jQuery('<li></li>')
-    li.text(`${message.from} ${formatedTime} : ${message.text}`)
-    jQuery('#messages').append(li)
+    var template = jQuery('#messageTemplate').html()
+    var html = Mustache.render(template,{
+        text:message.text,
+        from:message.from,
+        createdAt:formatedTime
+    })
+
+    jQuery('#messages').append(html)
 })
 
 jQuery('#messageForm').on('submit',function(e){
@@ -46,11 +50,11 @@ locationButton.on('click',function(){
 //For Create New Location Message
 socket.on('newLocationMessage',function(message){
     var formatedTime = moment(message.createdAt).format('hh:mm a')
-    var li =jQuery('<li></li>')
-    var a = jQuery('<a target="_blank">My Current Position </a>')
-
-    li.text(`${message.from} ${formatedTime} : `)
-    a.attr('href',message.url)
-    li.append(a)
-    jQuery('#messages').append(li)
+    var template = jQuery('#locationMessageTemplate').html()
+    var html = Mustache.render(template,{
+        text:message.url,
+        from:message.from,
+        createdAt:formatedTime
+    })
+    jQuery('#messages').append(html)
 })
