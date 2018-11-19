@@ -15,9 +15,7 @@ function scrollFunc (){
 }
 socket.on('connect',()=>{
     console.log('New User Connect !')
-
-
-        var params = jQuery.deparam(window.location.search)
+        var params = jQuery.deparam(window.location.search);
         socket.emit('join', params, function(err){
         if(err){
             alert(err)
@@ -27,8 +25,16 @@ socket.on('connect',()=>{
         }
     })
 })
+//Disconnet
 socket.on('disconnect',()=>{
     console.log('Disconnect from Server !')
+})
+socket.on('updateUserList',function(users){
+    var ol = jQuery('<ol></ol>')
+    users.forEach(function(user){
+        ol.append(jQuery('<li></li>').text(user))
+    })
+    jQuery('#users').html(ol)
 })
 //For Create New Text Message
 socket.on('newMessage',(message)=>{
